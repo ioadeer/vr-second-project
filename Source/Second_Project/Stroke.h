@@ -26,18 +26,15 @@ public:
 	void Update(FVector CursorLocation);
 
 private:
-	class USplineMeshComponent* CreateSplineMesh();
 
 	//Components
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
 
 	//Config
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMesh* SplineMesh;
 
-	UPROPERTY(EditDefaultsOnly)
-	UMaterialInterface* SplineMaterial;
+	UPROPERTY(VisibleAnywhere)
+	class UInstancedStaticMeshComponent* StrokeMeshes;
 
 	//State
 	FVector PreviousCursorLocation;
