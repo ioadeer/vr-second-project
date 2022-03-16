@@ -2,6 +2,7 @@
 
 
 #include "Stroke.h"
+#include "Math/Quat.h"
 #include "Components/InstancedStaticMeshComponent.h"
 
 // Sets default values
@@ -15,6 +16,9 @@ AStroke::AStroke()
 
 	StrokeMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("StrokeMeshes"));
 	StrokeMeshes->SetupAttachment(Root);
+
+	JointMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("JointMeshes"));
+	JointMeshes->SetupAttachment(Root);
 }
 
 // Called when the game starts or when spawned
@@ -33,14 +37,50 @@ void AStroke::Tick(float DeltaTime)
 
 void AStroke::Update(FVector CursorLocation)
 {
-	FTransform NewStrokeTransform;
-
-	FVector LocalCursosLocation = GetTransform().InverseTransformPosition(CursorLocation);
-
-	NewStrokeTransform.SetLocation(LocalCursosLocation);
-
-	StrokeMeshes->AddInstance(NewStrokeTransform);
+	if (PreviousCursorLocation.IsNearlyZero())
+	{
+		PreviousCursorLocation = CursorLocation;
+		return;
+	}
+	StrokeMeshes->AddInstance(GetNextSegmentTransform(CursorLocation));
+	JointMeshes->AddInstance(GetNextJointTransform(CursorLocation));
 
 	PreviousCursorLocation = CursorLocation;
+}
+
+FTransform AStroke::GetNextSegmentTransform(FVector CurrentLocation) const
+{
+	FTransform SegmentTransform;
+
+	SegmentTransform.SetScale3D(GetNextSegmentScale(CurrentLocation));
+	SegmentTransform.SetRotation(GetNextSegmentRotation(CurrentLocation));
+	SegmentTransform.SetLocation(GetNextSegmentLocation(CurrentLocation));
+	return SegmentTransform;
+}
+
+FTransform AStroke::GetNextJointTransform(FVector CurrentLocation) const
+{
+	FTransform JointTransform;
+	JointTransform.SetLocation(GetTransform().InverseTransformPosition(CurrentLocation));
+	return JointTransform;
+}
+
+FVector AStroke::GetNextSegmentScale(FVector CurrentLocation) const
+{
+	FVector Segment = CurrentLocation - PreviousCursorLocation;
+	return FVector(Segment.Size(),1,1);
+}
+
+FQuat AStroke::GetNextSegmentRotation(FVector CurrentLocation) const
+{
+	FVector Segment = CurrentLocation - PreviousCursorLocation;
+	FVector SegmentNormal = Segment.GetSafeNormal();
+	return FQuat::FindBetweenNormals(FVector::ForwardVector, SegmentNormal);
+}
+
+FVector AStroke::GetNextSegmentLocation(FVector CurrentLocation) const
+{
+
+	return GetTransform().InverseTransformPosition(CurrentLocation);
 }
 
