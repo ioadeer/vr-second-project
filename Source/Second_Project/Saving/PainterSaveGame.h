@@ -13,5 +13,10 @@ UCLASS()
 class SECOND_PROJECT_API UPainterSaveGame : public USaveGame
 {
 	GENERATED_BODY()
+
+public:
+	static UPainterSaveGame* Create();
+	bool Save();
+
 	
 };
