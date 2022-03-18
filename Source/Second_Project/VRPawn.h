@@ -36,6 +36,9 @@ private:
 	void RightTriggerPressed();
 	void RightTriggerReleased();
 
+	void Save();
+	void Load();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
