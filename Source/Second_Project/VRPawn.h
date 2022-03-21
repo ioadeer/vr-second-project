@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "HandController.h"
+#include "PaintBrushHandController.h"
 #include "VRPawn.generated.h"
 
 UCLASS()
@@ -28,10 +28,10 @@ private:
 	class USceneComponent* VRRoot;
 
 	UPROPERTY()
-	AHandController* RightController;
+	APaintBrushHandController* RightController;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AHandController> HandControllerClass;
+	TSubclassOf<APaintBrushHandController> PaintBrushHandControllerClass;
 
 	void RightTriggerPressed();
 	void RightTriggerReleased();

@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MotionControllerComponent.h"
-#include "HandController.generated.h"
+#include "PaintBrushHandController.generated.h"
 
 UCLASS()
-class SECOND_PROJECT_API AHandController : public AActor
+class SECOND_PROJECT_API APaintBrushHandController : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AHandController();
+	APaintBrushHandController();
 	void SetHand(EControllerHand Hand) { MotionController->SetTrackingSource(Hand); };
 	void TriggerPressed();
 	void TriggerReleased();

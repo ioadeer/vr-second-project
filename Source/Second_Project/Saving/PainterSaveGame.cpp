@@ -30,7 +30,7 @@ void UPainterSaveGame::SerializeFromWorld(UWorld* World)
 	for (TActorIterator<AStroke> StrokeItr(World); StrokeItr; ++StrokeItr)
 	{
 		//TODO Serialize
-		Strokes.Add(StrokeItr->GetClass());
+		Strokes.Add(StrokeItr->SerializeToStruct());
 	}
 }
 
@@ -40,9 +40,9 @@ void UPainterSaveGame::DeserializeToWorld(UWorld* World)
 	//For all stroke
 	//Spawn stroke of that type
 	ClearWorld(World);
-	for (TSubclassOf<AStroke> StrokeClass : Strokes)
+	for (FStrokeState StrokeState : Strokes)
 	{
-		World->SpawnActor<AStroke>(StrokeClass);
+		AStroke::SpawnAndDeserializeFromStruct(World, StrokeState);
 	}
 }
 

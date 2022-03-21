@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Saving/PainterSaveGame.h"
 #include "Stroke.generated.h"
 
 UCLASS()
@@ -14,6 +15,9 @@ class SECOND_PROJECT_API AStroke : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AStroke();
+
+	FStrokeState SerializeToStruct() const;
+	static AStroke* SpawnAndDeserializeFromStruct(UWorld* World, const FStrokeState& StrokeState);
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,4 +53,5 @@ private:
 
 	//State
 	FVector PreviousCursorLocation;
+	TArray<FVector> ControlPoints;
 };

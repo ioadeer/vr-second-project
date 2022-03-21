@@ -4,7 +4,7 @@
 #include "VRPawn.h"
 #include "Camera/CameraComponent.h"
 #include "Saving/PainterSaveGame.h"
-#include "HandController.h"
+#include "PaintBrushHandController.h"
 
 // Sets default values
 AVRPawn::AVRPawn()
@@ -25,7 +25,7 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	RightController = GetWorld()->SpawnActor<AHandController>(HandControllerClass);
+	RightController = GetWorld()->SpawnActor<APaintBrushHandController>(PaintBrushHandControllerClass);
 	if (RightController != nullptr)
 	{
 		RightController->AttachToComponent(VRRoot, FAttachmentTransformRules::SnapToTargetIncludingScale);
@@ -77,9 +77,9 @@ void AVRPawn::RightTriggerReleased()
 void AVRPawn::Save()
 {
 	UPainterSaveGame* Painting = UPainterSaveGame::Create();
-	Painting->SetState("Hello World");
 	Painting->SerializeFromWorld(GetWorld());
 	Painting->Save();
+	UE_LOG(LogTemp, Warning, TEXT("Game saved!"));
 }
 
 void AVRPawn::Load()
@@ -88,7 +88,8 @@ void AVRPawn::Load()
 	if (Painting)
 	{
 		Painting->DeserializeToWorld(GetWorld()); 
-		UE_LOG(LogTemp, Warning, TEXT("Painting State %s"),*Painting->GetState());
+		// UE_LOG(LogTemp, Warning, TEXT("Painting State %s"),*Painting->GetState());
+		UE_LOG(LogTemp, Warning, TEXT("Game Loaded"));
 	}
 	else
 	{
