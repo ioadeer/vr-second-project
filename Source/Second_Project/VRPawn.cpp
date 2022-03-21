@@ -78,6 +78,7 @@ void AVRPawn::Save()
 {
 	UPainterSaveGame* Painting = UPainterSaveGame::Create();
 	Painting->SetState("Hello World");
+	Painting->SerializeFromWorld(GetWorld());
 	Painting->Save();
 }
 
@@ -86,6 +87,11 @@ void AVRPawn::Load()
 	UPainterSaveGame* Painting = UPainterSaveGame::Load();
 	if (Painting)
 	{
+		Painting->DeserializeToWorld(GetWorld()); 
 		UE_LOG(LogTemp, Warning, TEXT("Painting State %s"),*Painting->GetState());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Not found"));
 	}
 }
