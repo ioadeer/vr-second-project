@@ -18,6 +18,7 @@ AVRPawn::AVRPawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(VRRoot);
 
+
 }
 
 // Called when the game starts or when spawned
@@ -44,6 +45,7 @@ void AVRPawn::Tick(float DeltaTime)
 	NewCameraOffset.Z = 0.0f;
 	AddActorWorldOffset(NewCameraOffset);
 	VRRoot->AddWorldOffset(-NewCameraOffset);
+	
 }
 
 // Called to bind functionality to input

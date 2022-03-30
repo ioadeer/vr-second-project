@@ -13,5 +13,14 @@ UCLASS()
 class SECOND_PROJECT_API AUIPointerHandController : public AHandControllerBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AUIPointerHandController();
+
+	void TriggerReleased() override;
+	void TriggerPressed() override;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	class UWidgetInteractionComponent* Pointer;
 };
