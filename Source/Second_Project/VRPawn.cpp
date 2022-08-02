@@ -26,6 +26,12 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	UPainterSaveGame* Painting = UPainterSaveGame::Create();
+	if (Painting && Painting->Save())
+	{
+		CurrentSlotName = Painting->GetSlotName();
+	}
+
 	RightController = GetWorld()->SpawnActor<AHandControllerBase>(PaintBrushHandControllerClass);
 	if (RightController != nullptr)
 	{
@@ -33,7 +39,6 @@ void AVRPawn::BeginPlay()
 		RightController->SetHand(EControllerHand::Right);
 		RightController->SetOwner(this);
 	}
-
 }
 
 
@@ -78,18 +83,21 @@ void AVRPawn::RightTriggerReleased()
 
 void AVRPawn::Save()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Create();
-	Painting->SerializeFromWorld(GetWorld());
-	Painting->Save();
-	UE_LOG(LogTemp, Warning, TEXT("Game saved!"));
+	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
+	if (Painting)
+	{
+		Painting->SerializeFromWorld(GetWorld());
+		Painting->Save();
+		UE_LOG(LogTemp, Warning, TEXT("Game saved!"));
+	}
 }
 
 void AVRPawn::Load()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Load();
-	if (Painting)
+	UPainterSaveGame* LoadedPainting = UPainterSaveGame::Load(CurrentSlotName);
+	if (LoadedPainting)
 	{
-		Painting->DeserializeToWorld(GetWorld()); 
+		LoadedPainting->DeserializeToWorld(GetWorld());
 		// UE_LOG(LogTemp, Warning, TEXT("Painting State %s"),*Painting->GetState());
 		UE_LOG(LogTemp, Warning, TEXT("Game Loaded"));
 	}

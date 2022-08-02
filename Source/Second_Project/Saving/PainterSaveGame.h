@@ -28,13 +28,15 @@ class SECOND_PROJECT_API UPainterSaveGame : public USaveGame
 public:
 	static UPainterSaveGame* Create();
 	bool Save();
-	static UPainterSaveGame* Load();
+	static UPainterSaveGame* Load(FString SlotName);
 
 	void SetState(FString NewState) { State = NewState; };
 	FString GetState() const { return State; };
 
 	void SerializeFromWorld(UWorld* World);
 	void DeserializeToWorld(UWorld* World);
+
+	FString GetSlotName() const { return SlotName; }
 
 private:
 
@@ -43,6 +45,9 @@ private:
 	//State
 	UPROPERTY()
 	FString State;
+
+	UPROPERTY()
+	FString SlotName;
 
 	UPROPERTY()
 	TArray<FStrokeState> Strokes;

@@ -36,6 +36,8 @@ private:
 	void RightTriggerPressed();
 	void RightTriggerReleased();
 
+	FString CurrentSlotName;
+
 	void Save();
 	void Load();
 
