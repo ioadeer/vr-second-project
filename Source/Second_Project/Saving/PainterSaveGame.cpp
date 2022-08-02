@@ -7,16 +7,28 @@
 #include "EngineUtils.h"
 #include "Misc/Guid.h"
 #include "Engine/World.h" 
+#include "PainterSaveGameIndex.h"
 
 UPainterSaveGame* UPainterSaveGame::Create()
 {
 	UPainterSaveGame* NewSaveGame = Cast<UPainterSaveGame>(UGameplayStatics::CreateSaveGameObject(StaticClass()));
 	NewSaveGame->SlotName = FGuid::NewGuid().ToString();
+	if (!NewSaveGame->Save()) return nullptr;
+
+	UPainterSaveGameIndex* Index = UPainterSaveGameIndex::Load();
+	Index->AddSaveGame(NewSaveGame);
+	Index->Save();
+
 	return NewSaveGame;
 }
 
 bool UPainterSaveGame::Save()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Painting Index:"));
+	for (FString TempSlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Painting name : %s"), *TempSlotName);
+	}
 	return UGameplayStatics::SaveGameToSlot(this, SlotName, 0);
 }
 
