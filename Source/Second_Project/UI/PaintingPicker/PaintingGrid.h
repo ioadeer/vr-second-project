@@ -21,7 +21,7 @@ protected:
 	UUniformGridPanel* PaintingGrid;
 public:
 	UFUNCTION(BlueprintCallable)
-	void AddPainting();
+	void AddPainting(int32 PaintingIndex);
 
 private:
 	UPROPERTY(EditDefaultsOnly)

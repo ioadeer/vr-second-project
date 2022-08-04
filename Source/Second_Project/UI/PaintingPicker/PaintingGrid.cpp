@@ -4,12 +4,12 @@
 #include "PaintingGrid.h"
 #include "Components/SizeBox.h"
 
-void UPaintingGrid::AddPainting()
+void UPaintingGrid::AddPainting(int32 PaintingIndex)
 {
 	if (!PaintingGrid) return;
 	UUserWidget* NewWidget = CreateWidget<UUserWidget>(GetWorld(), GridCardClass);
 	if (!NewWidget) return;
-	USizeBox* CardContainer = Cast<USizeBox>(PaintingGrid->GetChildAt(0));
+	USizeBox* CardContainer = Cast<USizeBox>(PaintingGrid->GetChildAt(PaintingIndex));
 	if (!CardContainer) return;
 	CardContainer->AddChild(NewWidget);
 	//PaintingGrid->GetChil
