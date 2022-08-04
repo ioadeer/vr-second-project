@@ -2,4 +2,9 @@
 
 
 #include "PaintingGridCard.h"
+#include "Internationalization/Text.h"
 
+void UPaintingGridCard::SetPaintingName(FString PaintingName)
+{
+	SlotName->SetText(FText::FromString(PaintingName));
+}

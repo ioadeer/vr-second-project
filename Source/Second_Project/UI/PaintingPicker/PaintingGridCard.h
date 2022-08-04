@@ -15,6 +15,9 @@ class SECOND_PROJECT_API UPaintingGridCard : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void SetPaintingName(FString PaintingName);
+
 protected:
 	UPROPERTY(BluePrintReadOnly, VisibleAnywhere, meta = (BindWidget))
 	UTextBlock* SlotName;

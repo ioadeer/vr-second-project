@@ -29,9 +29,9 @@ void APaintingPicker::BeginPlay()
 	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
 
 	int32 Index = 0;
-	for (FString TempSlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
+	for (FString SlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
 	{
-		PaintingGridWidget->AddPainting(Index);
+		PaintingGridWidget->AddPainting(Index, SlotName);
 		++Index;
 	}
 
