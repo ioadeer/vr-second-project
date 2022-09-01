@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddPainting(int32 PaintingIndex, FString PaintingName);
 
+	void ClearPaintings();
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPaintingGridCard> GridCardClass;

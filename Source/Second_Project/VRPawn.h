@@ -28,10 +28,16 @@ private:
 	class USceneComponent* VRRoot;
 
 	UPROPERTY()
-	AHandControllerBase* RightController;
+	AHandControllerBase* RightHandController;
+
+	UPROPERTY()
+	AHandControllerBase* LeftHandController;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AHandControllerBase> PaintBrushHandControllerClass;
+	TSubclassOf<AHandControllerBase> RightHandControllerClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AHandControllerBase> LeftHandControllerClass;
 
 	void RightTriggerPressed();
 	void RightTriggerReleased();

@@ -17,10 +17,7 @@ public:
 	APaintingPicker();
 
 	void AddPainting();
-	void ToggleDeleteMode()
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Toggle delete mode"));
-	};
+	void ToggleDeleteMode();
 
 protected:
 	// Called when the game starts or when spawned
