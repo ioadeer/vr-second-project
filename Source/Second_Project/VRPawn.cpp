@@ -60,8 +60,6 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("RightTrigger"), EInputEvent::IE_Released, this, &AVRPawn::RightTriggerReleased);
 
 	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVRPawn::Save);
-	PlayerInputComponent->BindAction(TEXT("Load"), EInputEvent::IE_Released, this, &AVRPawn::Load);
-
 }
 
 void AVRPawn::RightTriggerPressed()
@@ -88,20 +86,5 @@ void AVRPawn::Save()
 		Painting->SerializeFromWorld(GetWorld());
 		Painting->Save();
 		UE_LOG(LogTemp, Warning, TEXT("Game saved!"));
-	}
-}
-
-void AVRPawn::Load()
-{
-	UPainterSaveGame* LoadedPainting = UPainterSaveGame::Load(CurrentSlotName);
-	if (LoadedPainting)
-	{
-		LoadedPainting->DeserializeToWorld(GetWorld());
-		// UE_LOG(LogTemp, Warning, TEXT("Painting State %s"),*Painting->GetState());
-		UE_LOG(LogTemp, Warning, TEXT("Game Loaded"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not found"));
 	}
 }

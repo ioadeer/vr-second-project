@@ -39,7 +39,6 @@ private:
 	FString CurrentSlotName;
 
 	void Save();
-	void Load();
 
 public:	
 	// Called every frame
