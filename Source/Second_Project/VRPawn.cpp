@@ -5,6 +5,8 @@
 #include "Camera/CameraComponent.h"
 #include "Saving/PainterSaveGame.h"
 #include "PaintBrushHandController.h"
+#include "PaintingGameMode.h"
+#include "Kismet/GamePlayStatics.h"
 
 // Sets default values
 AVRPawn::AVRPawn()
@@ -80,11 +82,8 @@ void AVRPawn::RightTriggerReleased()
 
 void AVRPawn::Save()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
-	if (Painting)
-	{
-		Painting->SerializeFromWorld(GetWorld());
-		Painting->Save();
-		UE_LOG(LogTemp, Warning, TEXT("Game saved!"));
-	}
+	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
+	if (!GameMode) return;
+	GameMode->Save();
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
 }

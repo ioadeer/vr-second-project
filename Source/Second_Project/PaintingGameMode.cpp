@@ -13,19 +13,32 @@ void APaintingGameMode::InitGame(const FString& MapName, const FString& Options,
 	UE_LOG(LogTemp, Warning,TEXT("SlotName: %s"), *SlotName);
 }
 
-void APaintingGameMode::BeginPlay()
+void APaintingGameMode::Save()
 {
-	Super::BeginPlay();
+	UPainterSaveGame* Painting = UPainterSaveGame::Load(SlotName);
+	if (Painting)
+	{
+		Painting->SerializeFromWorld(GetWorld());
+		Painting->Save();
+	}
+}
+
+void APaintingGameMode::Load()
+{
 	UPainterSaveGame* LoadedPainting = UPainterSaveGame::Load(SlotName);
 	if (LoadedPainting)
 	{
 		LoadedPainting->DeserializeToWorld(GetWorld());
-		UStereoLayerFunctionLibrary::HideSplashScreen();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Not found: %s"), *SlotName);
 	}
+}
 
-	
+void APaintingGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	Load();
+	UStereoLayerFunctionLibrary::HideSplashScreen();
 }
