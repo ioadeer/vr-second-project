@@ -26,6 +26,7 @@ protected:
 
 private:	
 	void RefreshSlots();
+	int32 GetNumberOfPages() const;
 
 	UPROPERTY()
 	class USceneComponent* Root;

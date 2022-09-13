@@ -42,7 +42,7 @@ void APaintingPicker::RefreshSlots()
 	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
 	if (!PaintingGridWidget) return;
 
-	PaintingGridWidget->AddPaginationDot(false);
+	PaintingGridWidget->AddPaginationDot(true);
 	PaintingGridWidget->AddPaginationDot(false);
 	PaintingGridWidget->AddPaginationDot(false);
 
@@ -54,6 +54,12 @@ void APaintingPicker::RefreshSlots()
 		PaintingGridWidget->AddPainting(Index, SlotName);
 		++Index;
 	}
+}
+
+int32 APaintingPicker::GetNumberOfPages() const
+{
+	
+	return int32();
 }
 
 void APaintingPicker::AddPainting()

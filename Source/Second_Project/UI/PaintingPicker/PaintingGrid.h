@@ -33,6 +33,8 @@ public:
 
 	void ClearPaintings();
 
+	int32 GetNumberOfSlots() const;
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPaintingGridCard> GridCardClass;

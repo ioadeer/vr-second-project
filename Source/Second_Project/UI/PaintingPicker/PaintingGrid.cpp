@@ -24,6 +24,8 @@ void UPaintingGrid::AddPaginationDot(bool Active)
 	auto Dot = CreateWidget<UPaginationDot>(GetWorld(), PaginationDotClass);
 	if (!Dot) return;
 
+	Dot->SetActive(Active);
+
 	UHorizontalBoxSlot* DotSlot = PaginationDots->AddChildToHorizontalBox(Dot);
 	DotSlot->SetPadding(FMargin(PaginationDotPadding, 0));
 
@@ -39,3 +41,7 @@ void UPaintingGrid::ClearPaintings()
 		CardContainer->ClearChildren();
 	}
 }
+
+int32 UPaintingGrid::GetNumberOfSlots() const
+{
+	return PaintingGrid->GetChildrenCount();
