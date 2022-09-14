@@ -32,19 +32,15 @@ void APaintingPicker::BeginPlay()
 	{
 		ActionBarWidget->SetParentPicker(this);
 	}
-	RefreshSlots();
+	Refresh();
 }
 
 void APaintingPicker::RefreshSlots()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Number of pages %d"), GetNumberOfPages());
 
-	UPaintingGrid* PaintingGridWidget = GetPaintingGrid() ;
+	UPaintingGrid* PaintingGridWidget = GetPaintingGrid();
 	if (!PaintingGridWidget) return;
-
-	PaintingGridWidget->AddPaginationDot(true);
-	PaintingGridWidget->AddPaginationDot(false);
-	PaintingGridWidget->AddPaginationDot(false);
 
 	PaintingGridWidget->ClearPaintings();
 
@@ -54,6 +50,20 @@ void APaintingPicker::RefreshSlots()
 		PaintingGridWidget->AddPainting(Index, SlotName);
 		++Index;
 	}
+}
+
+void APaintingPicker::RefreshDots()
+{
+	UPaintingGrid* PaintingGridWidget = GetPaintingGrid();
+	if (!PaintingGridWidget) return;
+
+	PaintingGridWidget->ClearPaginationDots();
+
+	for (int32 i = 0; i < GetNumberOfPages(); i++)
+	{
+		PaintingGridWidget->AddPaginationDot(CurrentPage == i);
+	}
+
 }
 
 int32 APaintingPicker::GetNumberOfPages() const
@@ -67,7 +77,7 @@ int32 APaintingPicker::GetNumberOfPages() const
 void APaintingPicker::AddPainting()
 {
 	UPainterSaveGame::Create();
-	RefreshSlots();
+	Refresh();
 }
 
 void APaintingPicker::ToggleDeleteMode()

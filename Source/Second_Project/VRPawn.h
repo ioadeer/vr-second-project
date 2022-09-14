@@ -21,6 +21,15 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	void RightTriggerPressed();
+	void RightTriggerReleased();
+
+	void PaginateRightAxisInput(float AxisValue);
+
+	void Save();
+
+	//Reference
 	UPROPERTY()
 	class UCameraComponent* Camera;
 
@@ -33,18 +42,21 @@ private:
 	UPROPERTY()
 	AHandControllerBase* LeftHandController;
 
+	//Config
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHandControllerBase> RightHandControllerClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AHandControllerBase> LeftHandControllerClass;
 
-	void RightTriggerPressed();
-	void RightTriggerReleased();
+	UPROPERTY(EditDefaultsOnly)
+	float PaginationThumbstickThreshold = 0.9;
 
 	FString CurrentSlotName;
 
-	void Save();
+
+	//State
+	int32 LastPaginationOffset = 0;
 
 public:	
 	// Called every frame
