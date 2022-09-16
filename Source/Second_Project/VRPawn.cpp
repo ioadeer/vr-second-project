@@ -3,7 +3,9 @@
 
 #include "VRPawn.h"
 #include "Camera/CameraComponent.h"
+#include "EngineUtils.h"
 #include "Saving/PainterSaveGame.h"
+#include "UI/PaintingPicker/PaintingPicker.h"
 #include "PaintBrushHandController.h"
 #include "PaintingGameMode.h"
 #include "Kismet/GamePlayStatics.h"
@@ -88,6 +90,14 @@ void AVRPawn::RightTriggerReleased()
 	}
 }
 
+void AVRPawn::Save()
+{
+	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
+	if (!GameMode) return;
+	GameMode->Save();
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
+}
+
 void AVRPawn::PaginateRightAxisInput(float AxisValue)
 {
 	int32 PaginationOffset = 0;
@@ -96,16 +106,16 @@ void AVRPawn::PaginateRightAxisInput(float AxisValue)
 
 	if (PaginationOffset != LastPaginationOffset && PaginationOffset != 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Paginate %d"), PaginationOffset);
+		UpdateCurrentPage(PaginationOffset);
 	}
 
 	LastPaginationOffset = PaginationOffset;
 }
 
-void AVRPawn::Save()
+void AVRPawn::UpdateCurrentPage(int32 Offset)
 {
-	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
-	if (!GameMode) return;
-	GameMode->Save();
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
+	for (TActorIterator<APaintingPicker> PaintingPickerIter(GetWorld()); PaintingPickerIter; ++PaintingPickerIter)
+	{
+		PaintingPickerIter->UpdateCurrentPage(Offset);
+	}
 }

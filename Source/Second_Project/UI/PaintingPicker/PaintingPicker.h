@@ -20,6 +20,8 @@ public:
 	void AddPainting();
 	void ToggleDeleteMode();
 
+	void UpdateCurrentPage(int32 Offset);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,7 +45,6 @@ private:
 	UWidgetComponent* ActionBar;
 
 	//State
-	UPROPERTY(EditAnywhere)
 	int32 CurrentPage = 0;
 
 };

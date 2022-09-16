@@ -44,11 +44,11 @@ void APaintingPicker::RefreshSlots()
 
 	PaintingGridWidget->ClearPaintings();
 
-	int32 Index = 0;
-	for (FString SlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
+	int32 StartOffset = CurrentPage * PaintingGridWidget->GetNumberOfSlots();
+	auto SlotNames = UPainterSaveGameIndex::Load()->GetSlotNames();
+	for (int32 i = 0; i < PaintingGridWidget->GetNumberOfSlots() && StartOffset + i < SlotNames.Num(); ++i)
 	{
-		PaintingGridWidget->AddPainting(Index, SlotName);
-		++Index;
+		PaintingGridWidget->AddPainting(i, SlotNames[StartOffset+i]);
 	}
 }
 
@@ -86,4 +86,10 @@ void APaintingPicker::ToggleDeleteMode()
 	if (!PaintingGridWidget) return;
 
 	PaintingGridWidget->ClearPaintings();
+}
+
+void APaintingPicker::UpdateCurrentPage(int32 Offset)
+{
+	CurrentPage = FMath::Clamp(CurrentPage+Offset,0,GetNumberOfPages()- 1);
+	Refresh();
 }
